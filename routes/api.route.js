@@ -13,6 +13,7 @@ router.get("/students", async (req, res, next) => {
     const classes = await prisma.class.findMany({
       include: { students: true },
     });
+
     res.json({ students, classes });
   } catch (error) {
     next(error);

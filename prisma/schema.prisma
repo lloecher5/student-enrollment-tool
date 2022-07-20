@@ -11,14 +11,13 @@ datasource db {
 }
 
 model Student {
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   firstName String
   lastName  String
-
+  age       Int
   createdAt DateTime @default(now())
-
-  class   Class? @relation(fields: [classId], references: [id])
-  classId Int?
+  class     Class?   @relation(fields: [classId], references: [id])
+  classId   Int?
 }
 
 model Class {
