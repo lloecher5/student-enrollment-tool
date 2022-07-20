@@ -3,11 +3,11 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-//route used to get all students
+//get classes and students
 router.get("/students", async (req, res, next) => {
   try {
     const students = await prisma.student.findMany({
-      include: { class: true },
+      include: { classes: true },
     });
 
     const classes = await prisma.class.findMany({
@@ -20,27 +20,19 @@ router.get("/students", async (req, res, next) => {
   }
 });
 
-//route used to get an individual student
-router.get("/students/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const product = await prisma.student.findUnique({
-      where: { id: Number(id) },
-      include: { class: true },
-    });
-
-    res.json(product);
-  } catch (error) {
-    next(error);
-  }
-});
-
 //route used to add a new student
 router.post("/students", async (req, res, next) => {
   try {
     const student = await prisma.student.create({
-      data: req.body,
+      data: {
+        name: req.body.name,
+        age: req.body.age,
+        classes: {
+          connect: { id: req.body.classId },
+        },
+      },
     });
+
     res.json(student);
   } catch (error) {
     next(error);
@@ -83,7 +75,7 @@ router.put("/add-class/:id", async (req, res, next) => {
       where: { id: Number(id) },
       data: {
         classes: {
-          connect: { id: 3 },
+          connect: { id: req.body.classId },
         },
       },
     });
@@ -103,7 +95,7 @@ router.put("/remove-class/:id", async (req, res, next) => {
       where: { id: Number(id) },
       data: {
         classes: {
-          disconnect: { id: 2 },
+          disconnect: { id: req.body.classId },
         },
       },
     });
@@ -128,6 +120,21 @@ router.patch("/students/:id", async (req, res, next) => {
       },
     });
     res.json(student);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//route used to delete a class
+router.delete("/classes/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deletedClass = await prisma.class.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.json(deletedClass);
   } catch (error) {
     next(error);
   }

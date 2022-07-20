@@ -2,7 +2,7 @@ GET http://localhost:3000/api/students
 
 ###
 
-GET http://localhost:3000/api/students/
+GET http://localhost:3000/api/students/1
 
 ###
 
@@ -30,3 +30,46 @@ Content-Type: application/json
     "age": 29,
     "classId":3
 }
+
+
+
+
+###
+
+GET http://localhost:3000/api/students
+
+###
+
+GET  http://localhost:3000/api/classes
+
+###
+POST http://localhost:3000/api/classes
+Content-Type: application/json
+
+{
+    "name": "physics"
+    
+}
+
+###
+
+POST http://localhost:3000/api/students
+Content-Type: application/json
+
+{
+    "name": "Luke Loecher",
+    "age": 25
+
+}
+
+###
+
+PUT http://localhost:3000/api/add-class/1
+
+
+###
+
+PUT http://localhost:3000/api/remove-class/1
+
+###
+DELETE http://localhost:3000/api/classes/2
