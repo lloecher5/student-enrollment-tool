@@ -20,7 +20,7 @@ router.get("/students", async (req, res, next) => {
   }
 });
 
-//route used to get an individual product
+//route used to get an individual student
 router.get("/students/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -35,7 +35,7 @@ router.get("/students/:id", async (req, res, next) => {
   }
 });
 
-//route used to add a new product
+//route used to add a new student
 router.post("/students", async (req, res, next) => {
   try {
     const student = await prisma.student.create({
@@ -47,7 +47,20 @@ router.post("/students", async (req, res, next) => {
   }
 });
 
-//route used to delete a product
+//route used to add a new class
+
+router.post("/classes", async (req, res, next) => {
+  try {
+    const subject = await prisma.class.create({
+      data: req.body,
+    });
+    res.json(subject);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//route used to delete a student
 router.delete("/students/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -62,7 +75,46 @@ router.delete("/students/:id", async (req, res, next) => {
   }
 });
 
-//route used to update a product
+//route used to assign new class to student
+router.put("/add-class/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const student = await prisma.student.update({
+      where: { id: Number(id) },
+      data: {
+        classes: {
+          connect: { id: 3 },
+        },
+      },
+    });
+
+    res.json(student);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//route used to remove a student from specific class
+//remove a given student from a class
+router.put("/remove-class/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const student = await prisma.student.update({
+      where: { id: Number(id) },
+      data: {
+        classes: {
+          disconnect: { id: 2 },
+        },
+      },
+    });
+
+    res.json(student);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//route used to update a student
 router.patch("/students/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
