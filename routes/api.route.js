@@ -3,7 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-//get classes and students
+//route used to get classes and students
 router.get("/students", async (req, res, next) => {
   try {
     const students = await prisma.student.findMany({
@@ -40,7 +40,6 @@ router.post("/students", async (req, res, next) => {
 });
 
 //route used to add a new class
-
 router.post("/classes", async (req, res, next) => {
   try {
     const subject = await prisma.class.create({
@@ -87,7 +86,6 @@ router.put("/add-class/:id", async (req, res, next) => {
 });
 
 //route used to remove a student from specific class
-//remove a given student from a class
 router.put("/remove-class/:id", async (req, res, next) => {
   try {
     const { id } = req.params;

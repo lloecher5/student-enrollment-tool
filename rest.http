@@ -72,4 +72,4 @@ PUT http://localhost:3000/api/add-class/1
 PUT http://localhost:3000/api/remove-class/1
 
 ###
-DELETE http://localhost:3000/api/classes/2
+DELETE http://localhost:3000/api/classes/5
